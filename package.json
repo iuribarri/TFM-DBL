@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "openbim-components": "1.1.5"
+  },
+  "name": "tfm-dbl",
+  "description": "",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.0.11"
+  }
+}
