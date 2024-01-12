@@ -200,3 +200,14 @@
     border: 1px solid black;
 
 }
+#bottom-toolbar-container{
+    position: absolute;
+    bottom: 85%;
+    width: 6rem;
+    height: 6rem;
+    background-color: var(--color-c3);
+}
+#IHydmcBP5a{
+    position: absolute;
+    bottom: 85%;
+}

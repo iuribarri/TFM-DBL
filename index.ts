@@ -3,7 +3,6 @@ import {GUI} from "three/examples/jsm/libs/lil-gui.module.min"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as OBC from "openbim-components";
 
-
 // IFC viewer
 const viewer = new OBC.Components()
 
@@ -14,7 +13,7 @@ const scene = sceneComponent.get()
 scene.background = null
 
 const viewerContainer = document.getElementById("viewer-container") as HTMLDivElement
-const rendererComponent = new OBC.SimpleRenderer(viewer, viewerContainer)
+const rendererComponent = new OBC.PostproductionRenderer(viewer, viewerContainer)
 viewer.renderer = rendererComponent
 
 const cameraComponent = new OBC.OrthoPerspectiveCamera(viewer)
@@ -25,23 +24,28 @@ viewer.raycaster = raycasterComponent
 
 viewer.init()
 cameraComponent.updateAspect()
+rendererComponent.postproduction.enabled =true;
 
 //IFC loader
 
 const ifcLoader= new OBC.FragmentIfcLoader(viewer)
-
 ifcLoader.settings.wasm = {
   path: "https://unpkg.com/web-ifc@0.0.43/",
   absolute:true
 }
-
 const toolbar= new OBC.Toolbar(viewer)
 toolbar.addChild(
   ifcLoader.uiElement.get("main")
 )
 viewer.ui.addToolbar(toolbar);
 
+const highlighter= new OBC.FragmentHighlighter(viewer)
+highlighter.setup()
 
+ifcLoader.onIfcLoaded.add((model)=>{
+  highlighter.update()
+  console.log(model)
+})
 // IFC properties to table logic//
 import { a2 } from "./indexStructure";
 
@@ -85,5 +89,4 @@ interface Subcategory {
     const existingSection = document.getElementById("tableSectionDemo") as HTMLElement;
     existingSection.remove();
   }
-  generateTable(a2);
-
+  generateTable(a2); 
