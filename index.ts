@@ -3,9 +3,6 @@ import {GUI} from "three/examples/jsm/libs/lil-gui.module.min"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as OBC from "openbim-components";
 
-const geometryBox = new THREE.BoxGeometry()
-const material = new THREE.MeshStandardMaterial()
-const cube = new THREE.Mesh (geometryBox, material)
 
 // IFC viewer
 const viewer = new OBC.Components()
@@ -27,11 +24,23 @@ const raycasterComponent = new OBC.SimpleRaycaster(viewer)
 viewer.raycaster = raycasterComponent
 
 viewer.init()
-scene.add(cube)
 cameraComponent.updateAspect()
 
 //IFC loader
-const ifcLoader= new OBC.FragmentIfcLoader(viewer);
+
+const ifcLoader= new OBC.FragmentIfcLoader(viewer)
+
+ifcLoader.settings.wasm = {
+  path: "https://unpkg.com/web-ifc@0.0.43/",
+  absolute:true
+}
+
+const toolbar= new OBC.Toolbar(viewer)
+toolbar.addChild(
+  ifcLoader.uiElement.get("main")
+)
+viewer.ui.addToolbar(toolbar);
+
 
 // IFC properties to table logic//
 import { a2 } from "./indexStructure";
@@ -76,6 +85,5 @@ interface Subcategory {
     const existingSection = document.getElementById("tableSectionDemo") as HTMLElement;
     existingSection.remove();
   }
-
   generateTable(a2);
 

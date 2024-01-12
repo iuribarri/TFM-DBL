@@ -2,7 +2,6 @@
     margin: 0px;
     padding: 0px;
     border: 0px;
-    overflow: hidden;
 }
 :root{
     --color-c1:rgb(179,194,148);
@@ -22,7 +21,7 @@
     --category-container-width:50vw;
     --category-btn-height:6rem;
     --main-width:100%;
-    --main-height:75vh;
+    --main-height:85vh;
     --main-table-width:30rem;
     --main-table-maxwidth:50rem;
     --main-table-height:100%;
@@ -119,6 +118,7 @@
     flex-direction: row;
     height: var(--main-height);
     width: 100vw;
+    background-color:var(--color-c3);
 }
 /*/Main-Table/*/
 .main-table-container{
@@ -195,9 +195,8 @@
 #viewer-container{
     position: relative;
     display: block;
-    width: 50%;
-    height: 100%;
+    width: 60rem;
+    height: var(--main-height);
     border: 1px solid black;
-    background-color: aqua;
 
 }
