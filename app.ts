@@ -3,57 +3,80 @@ import {GUI} from "three/examples/jsm/libs/lil-gui.module.min"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as OBC from "openbim-components";
 
-const scene = new THREE.Scene
-scene.background = new THREE.Color()
-
-const viewerContainer = document.getElementById('viewer-container') as HTMLElement;
-
-const camera = new THREE.PerspectiveCamera(75);
-camera.position.z= 5
-
-//Missing in That Open//
-const renderer= new THREE.WebGLRenderer({canvas: viewerContainer, alpha:true, antialias:true})
+//const scene = new THREE.Scene
+//scene.background = new THREE.Color()
 //
-
-function resizeViewer (){
-     const containerDimensions = viewerContainer.getBoundingClientRect()
-     renderer.setSize(containerDimensions.width, containerDimensions.height)
-     const aspectRatio= containerDimensions.width / containerDimensions.height
-     camera.aspect = aspectRatio
-     camera.updateProjectionMatrix()
-} 
-
-window.addEventListener("resize", resizeViewer)
-
-resizeViewer()
-renderScene()
-
+//const viewerContainer = document.getElementById('viewer-container') as HTMLElement;
+//
+//const camera = new THREE.PerspectiveCamera(75);
+//camera.position.z= 5
+//
+////Missing in That Open//
+//const renderer= new THREE.WebGLRenderer({canvas: viewerContainer, alpha:true, antialias:true})
+////
+//
+//function resizeViewer (){
+//     const containerDimensions = viewerContainer.getBoundingClientRect()
+//     renderer.setSize(containerDimensions.width, containerDimensions.height)
+//     const aspectRatio= containerDimensions.width / containerDimensions.height
+//     camera.aspect = aspectRatio
+//     camera.updateProjectionMatrix()
+//} 
+//
+//window.addEventListener("resize", resizeViewer)
+//
+//resizeViewer()
+//renderScene()
+//
 const geometryBox = new THREE.BoxGeometry()
 const material = new THREE.MeshStandardMaterial()
 const cube = new THREE.Mesh (geometryBox, material)
+//
+//const directionalLight = new THREE.DirectionalLight()
+//const ambientLight = new THREE.AmbientLight()
+//ambientLight.intensity= 0.6;
+//
+//
+//const cameraControls= new OrbitControls(camera,viewerContainer)
+//function renderScene (){
+//    renderer.render(scene,camera)
+//    requestAnimationFrame(renderScene)
+//}
+//const axes= new THREE.AxesHelper()
+//const grid = new THREE.GridHelper()
+//scene.add(camera,cube, directionalLight,ambientLight,axes,grid)
+//
+//const gui = new GUI();
+//const cubeControls= gui.addFolder("Cube")
+//cubeControls.add(cube.position, "x",)
+//cubeControls.add(cube.position, "y")
+//cubeControls.add(cube.position, "z")
+//
+//window.addEventListener("resize", resizeViewer)
 
-const directionalLight = new THREE.DirectionalLight()
-const ambientLight = new THREE.AmbientLight()
-ambientLight.intensity= 0.6;
+//New IFC viewer//
 
+const viewer = new OBC.Components();
 
-const cameraControls= new OrbitControls(camera,viewerContainer)
-function renderScene (){
-    renderer.render(scene,camera)
-    requestAnimationFrame(renderScene)
-}
-const axes= new THREE.AxesHelper()
-const grid = new THREE.GridHelper()
-scene.add(camera,cube, directionalLight,ambientLight,axes,grid)
+const sceneComponent = new OBC.SimpleScene(viewer)
+sceneComponent.setup()
+viewer.scene= sceneComponent;
+const scene= sceneComponent.get()
+scene.background = null
 
-const gui = new GUI();
-const cubeControls= gui.addFolder("Cube")
-cubeControls.add(cube.position, "x",)
-cubeControls.add(cube.position, "y")
-cubeControls.add(cube.position, "z")
+const viewerContainer = document.getElementById("viewer-container") as HTMLDivElement 
+const rendererComponent = new OBC.SimpleRenderer(viewer, viewerContainer)
+viewer.renderer = rendererComponent
 
-window.addEventListener("resize", resizeViewer)
+const cameraComponent = new OBC.OrthoPerspectiveCamera(viewer)
+viewer.camera = cameraComponent
 
+viewer.init()
+cameraComponent.updateAspect
+
+scene.add(cube)
+
+//Structure
 const a2=[
     {id:"a2_01",
     subCategory:"Facades",
