@@ -1,3 +1,58 @@
+import * as THREE from "three";
+import {GUI} from "three/examples/jsm/libs/lil-gui.module.min"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as OBC from "openbim-components";
+
+const scene = new THREE.Scene
+scene.background = new THREE.Color()
+
+const viewerContainer = document.getElementById('viewer-container') as HTMLElement;
+
+const camera = new THREE.PerspectiveCamera(75);
+camera.position.z= 5
+
+//Missing in That Open//
+const renderer= new THREE.WebGLRenderer({canvas: viewerContainer, alpha:true, antialias:true})
+//
+
+function resizeViewer (){
+     const containerDimensions = viewerContainer.getBoundingClientRect()
+     renderer.setSize(containerDimensions.width, containerDimensions.height)
+     const aspectRatio= containerDimensions.width / containerDimensions.height
+     camera.aspect = aspectRatio
+     camera.updateProjectionMatrix()
+} 
+
+window.addEventListener("resize", resizeViewer)
+
+resizeViewer()
+renderScene()
+
+const geometryBox = new THREE.BoxGeometry()
+const material = new THREE.MeshStandardMaterial()
+const cube = new THREE.Mesh (geometryBox, material)
+
+const directionalLight = new THREE.DirectionalLight()
+const ambientLight = new THREE.AmbientLight()
+ambientLight.intensity= 0.6;
+
+
+const cameraControls= new OrbitControls(camera,viewerContainer)
+function renderScene (){
+    renderer.render(scene,camera)
+    requestAnimationFrame(renderScene)
+}
+const axes= new THREE.AxesHelper()
+const grid = new THREE.GridHelper()
+scene.add(camera,cube, directionalLight,ambientLight,axes,grid)
+
+const gui = new GUI();
+const cubeControls= gui.addFolder("Cube")
+cubeControls.add(cube.position, "x",)
+cubeControls.add(cube.position, "y")
+cubeControls.add(cube.position, "z")
+
+window.addEventListener("resize", resizeViewer)
 
 const a2=[
     {id:"a2_01",
@@ -79,42 +134,113 @@ const a2=[
         {id:"a2_06_10",subcatIndicatorName:"Roof Layer Thickness 1",units:""},
     ]},
 ];
-function generateTable(array) {
-    const mainTableContainer = document.getElementById("table-container");
-    const templateTableSection = document.getElementById("tableSectionDemo").cloneNode(true);
-  
-    array.forEach((subcategory) => {
-      const tableSection = templateTableSection.cloneNode(true);
-      const subcategoryButton = tableSection.querySelector(".tableSubcategory");
-      const table = tableSection.querySelector(".tableComplete");
-      const headerRow = table.querySelector(".tableRow");
-  
-  
-      // Add a default header cell
-      const defaultHeader = document.getElementById("tableIndicatorDemo").cloneNode(true);
-      headerRow.appendChild(defaultHeader);
-  
-      // Add subcategory indicator names as additional headers
-      subcategory.subcategoryIndicators.forEach((indicator) => {
-        const indicatorHeader = defaultHeader.cloneNode(true);
-        indicatorHeader.id="";
-        indicatorHeader.textContent = indicator.subcatIndicatorName;
-        headerRow.appendChild(indicatorHeader);
-        
-      });
-  
-      // You can continue to customize the table structure as needed
-      const existingIndicator = document.getElementById("tableIndicatorDemo");
-      existingIndicator.remove();
-      
-      subcategoryButton.textContent = subcategory.subCategory;
-  
-      mainTableContainer.appendChild(tableSection);
-    });
-    const exisistingSection = document.getElementById("tableSectionDemo");
-    exisistingSection.remove();
-  }
+
+//function generateTable(array) {
+//    const mainTableContainer = document.getElementById("table-container");
+//    const templateTableSection = document.getElementById("tableSectionDemo").cloneNode(true);
+//  
+//    array.forEach((subcategory) => {
+//      const tableSection = templateTableSection.cloneNode(true);
+//      const subcategoryButton = tableSection.querySelector(".tableSubcategory");
+//      const table = tableSection.querySelector(".tableComplete");
+//      const headerRow = table.querySelector(".tableRow");
+//  
+//  
+//      // Add a default header cell
+//      const defaultHeader = document.getElementById("tableIndicatorDemo").cloneNode(true);
+//      headerRow.appendChild(defaultHeader);
+//  
+//      // Add subcategory indicator names as additional headers
+//      subcategory.subcategoryIndicators.forEach((indicator) => {
+//        const indicatorHeader = defaultHeader.cloneNode(true);
+//        indicatorHeader.id="";
+//        indicatorHeader.textContent = indicator.subcatIndicatorName;
+//        headerRow.appendChild(indicatorHeader);
+//        
+//      });
+//  
+//      // You can continue to customize the table structure as needed
+//      const existingIndicator = document.getElementById("tableIndicatorDemo");
+//      existingIndicator.remove();
+//      
+//      subcategoryButton.textContent = subcategory.subCategory;
+//  
+//      mainTableContainer.appendChild(tableSection);
+//    });
+//    const existingSection = document.getElementById("tableSectionDemo");
+//    existingSection.remove();
+//  }
+
 generateTable(a2);
 //Add event listener//
 const btnNav= document.querySelectorAll(".category-btn")
 
+interface Subcategory {
+    subCategory: string;
+    subcategoryIndicators: { subcatIndicatorName: string }[];
+  }
+
+  function generateTable(array: Subcategory[]) {
+    const mainTableContainer = document.getElementById("table-container") as HTMLElement;
+    const templateTableSection = document.getElementById("tableSectionDemo")!.cloneNode(true) as HTMLElement;
+  
+    array.forEach((subcategory) => {
+      const tableSection = templateTableSection.cloneNode(true) as HTMLElement;
+      const subcategoryButton = tableSection.querySelector(".tableSubcategory") as HTMLElement;
+      const table = tableSection.querySelector(".tableComplete") as HTMLElement;
+      const headerRow = table.querySelector(".tableRow") as HTMLElement;
+  
+      // Add a default header cell
+      const defaultHeader = document.getElementById("tableIndicatorDemo")!.cloneNode(true) as HTMLElement;
+      headerRow.appendChild(defaultHeader);
+  
+      // Add subcategory indicator names as additional headers
+      subcategory.subcategoryIndicators.forEach((indicator) => {
+        const indicatorHeader = defaultHeader.cloneNode(true) as HTMLElement;
+        indicatorHeader.id = "";
+        indicatorHeader.textContent = indicator.subcatIndicatorName;
+        headerRow.appendChild(indicatorHeader);
+      });
+  
+      // You can continue to customize the table structure as needed
+      const existingIndicator = document.getElementById("tableIndicatorDemo") as HTMLElement;
+      existingIndicator.remove();
+  
+      subcategoryButton.textContent = subcategory.subCategory;
+  
+      mainTableContainer.appendChild(tableSection);
+    });
+  
+    const existingSection = document.getElementById("tableSectionDemo") as HTMLElement;
+    existingSection.remove();
+  }
+
+  generateTable(a2);
+
+  /*/
+
+/*/
+
+ //IFC components!!!
+
+//const viewer = new OBC.Components ();
+//const sceneComponent= new OBC.SimpleScene(viewer);
+//viewer.scene = sceneComponent;
+//const scene = sceneComponent.get()
+//scene.background = null;
+//
+//const viewerContainer = document.getElementById("viewer-container") as HTMLDivElement;
+//const rendererComponent = new OBC.SimpleRenderer(viewer,viewerContainer)
+//viewer.renderer = rendererComponent;
+//
+//const cameraComponent = new OBC.OrthoPerspectiveCamera(viewer);
+//viewer.camera = cameraComponent;
+//
+///*/ Three Js geometry/*/
+//const boxGeometry = new THREE.BoxGeometry();
+//const material= new THREE.MeshStandardMaterial()
+//const cube = new THREE.Mesh( boxGeometry,material);
+//
+////Initializing OpenBIM-components viewer//
+//scene.add(cube);
+//viewer.init();

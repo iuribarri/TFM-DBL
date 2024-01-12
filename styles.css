@@ -10,7 +10,7 @@
     --color-c3:rgb(237, 218, 162);
     --color-c4:rgb(200, 200, 126);
     --color-grey:rgb(220,220,220);
-    --header-height:8rem;
+    --header-height:15vh;
     --home-height:8rem;
     --logo-container-width:6rem;
     --logo-dimension:6rem;
@@ -22,18 +22,18 @@
     --category-container-width:50vw;
     --category-btn-height:6rem;
     --main-width:100%;
-    --main-height:100%;
+    --main-height:75vh;
     --main-table-width:30rem;
     --main-table-maxwidth:50rem;
     --main-table-height:100%;
 }
 /*/01Header/*/
 .header{
-    position: absolute;
+    position: sticky;
     display: flex;
     height: var(--header-height);
     width: 100%;
-    border: 1px solid black ;
+
 }
 /*/01.1Header-Home/*/
 .home{
@@ -114,12 +114,13 @@
 }
 /*/Main/*/
 .main{
-    position: absolute;
-    display: grid;
-    top: var(--header-height);
+    position: sticky;
+    display: flex;
+    flex-direction: row;
+    height: var(--main-height);
     width: 100vw;
-    border: 1px solid black;
 }
+/*/Main-Table/*/
 .main-table-container{
     position: relative;
     display: inline-block;
@@ -136,7 +137,7 @@
     border: 2px dotted black;
 }
 .tableComplete{
-    position: inherit;
+    position: relative;
     display: block;
     border: 1px solid grey;
     width: 100%;
@@ -189,4 +190,13 @@
     text-align: center;
     border: 1px solid var(--color-grey);
     font-size: 12px;
+}
+/*/Main-Central/*/
+.canvas{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+
 }
