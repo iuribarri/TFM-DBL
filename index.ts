@@ -5,7 +5,6 @@ import * as OBC from "openbim-components";
 
 // IFC viewer
 const viewer = new OBC.Components()
-
 const sceneComponent = new OBC.SimpleScene(viewer)
 sceneComponent.setup()
 viewer.scene = sceneComponent
@@ -64,7 +63,7 @@ interface Subcategory {
       const subcategoryButton = tableSection.querySelector(".tableSubcategory") as HTMLElement;
       const table = tableSection.querySelector(".tableComplete") as HTMLElement;
       const headerRow = table.querySelector(".tableRow") as HTMLElement;
-  
+
       // Add a default header cell
       const defaultHeader = document.getElementById("tableIndicatorDemo")!.cloneNode(true) as HTMLElement;
       headerRow.appendChild(defaultHeader);

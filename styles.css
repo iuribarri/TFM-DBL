@@ -5,7 +5,7 @@
 }
 :root{
     --color-c1:rgb(179,194,148);
-    --color-c2:rgb(183, 178, 78);
+    --color-c2:rgb(156, 187, 109);
     --color-c3:rgb(237, 218, 162);
     --color-c4:rgb(200, 200, 126);
     --color-grey:rgb(220,220,220);
@@ -118,7 +118,7 @@
     flex-direction: row;
     height: var(--main-height);
     width: 100vw;
-    background-color:var(--color-c3);
+    background-color:white;
 }
 /*/Main-Table/*/
 .main-table-container{
